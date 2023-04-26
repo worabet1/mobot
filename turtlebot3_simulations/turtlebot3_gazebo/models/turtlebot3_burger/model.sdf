@@ -177,7 +177,7 @@
           <iyz>5.75694e-11</iyz>
           <izz>1.8158194e-03</izz>
         </inertia>
-        <mass>2.8498940e-02</mass>
+        <mass>1</mass>
       </inertial>
 
       <collision name="wheel_left_collision">
@@ -192,8 +192,8 @@
           <!-- This friction pamareter don't contain reliable data!! -->
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>1000000.0</mu>
+              <mu2>1000000.0</mu2>
               <fdir1>0 0 0</fdir1>
               <slip1>0.0</slip1>
               <slip2>0.0</slip2>
@@ -235,7 +235,8 @@
           <iyz>5.75694e-11</iyz>
           <izz>1.8158194e-03</izz>
         </inertia>
-        <mass>2.8498940e-02</mass>
+        <mass>1</mass>
+        <!-- <mass>2.8498940e-02</mass> -->
       </inertial>
 
       <collision name="wheel_right_collision">
@@ -250,8 +251,8 @@
           <!-- This friction pamareter don't contain reliable data!! -->
           <friction>
             <ode>
-              <mu>100000.0</mu>
-              <mu2>100000.0</mu2>
+              <mu>1000000.0</mu>
+              <mu2>1000000.0</mu2>
               <fdir1>0 0 0</fdir1>
               <slip1>0.0</slip1>
               <slip2>0.0</slip2>
