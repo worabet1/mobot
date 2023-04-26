@@ -298,12 +298,6 @@
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>    
-        <link name='Wall_x_6_1'>
-          <pose>1.2857 1.7142 0 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>  
       </model>
       <model name='ground_plane'>
         <pose>0 0 0 0 -0 0</pose>
