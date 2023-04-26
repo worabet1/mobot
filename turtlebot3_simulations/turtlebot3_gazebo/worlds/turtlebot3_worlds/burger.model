@@ -214,12 +214,6 @@
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
-        <link name='Wall_y_5_0'>
-          <pose>1.6666 0.8333 0 0 0 -1.5708</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
         <link name='Wall_y_5_1'>
           <pose>1.6666 1.5 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
@@ -256,6 +250,12 @@
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>    
+        <link name='Wall_x_3_0'>
+          <pose>1.5 1 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>   
         <link name='Wall_x_4_0'>
           <pose>1.5 1.3333 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
@@ -1202,52 +1202,6 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <link name='Wall_y_5_0'>
-        <collision name='Wall_y_5_0_Collision'>
-          <geometry>
-            <box>
-              <size>0.2857 0.002 .25</size>
-            </box>
-          </geometry>
-          <pose>0 0 0.12 0 -0 0</pose>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <visual name='Wall_y_5_0_Visual'>
-          <pose>0 0 0.12 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.2857 0.002 .25</size>
-            </box>
-          </geometry>
-          <material>
-            <script>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-              <name>Gazebo/Grey</name>
-            </script>
-            
-            <ambient>1 1 1 1</ambient>
-          </material>
-          <meta>
-            <layer>0</layer>
-          </meta>
-        </visual>
-        <pose>0 0 0.12 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
       <link name='Wall_y_5_1'>
         <collision name='Wall_y_5_1_Collision'>
           <geometry>
@@ -1519,6 +1473,51 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
+      <link name='Wall_x_3_0'>
+        <collision name='Wall_x_3_0_Collision'>
+          <geometry>
+            <box>
+              <size>0.2857 0.002 .25</size>
+            </box>
+          </geometry>
+          <pose>0 0 0.12 0 -0 0</pose>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='Wall_x_3_0_Visual'>
+          <pose>0 0 0.12 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2857 0.002 .25</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Blue</name>
+            </script>
+            <ambient>1 1 1 1</ambient>
+          </material>
+          <meta>
+            <layer>0</layer>
+          </meta>
+        </visual>
+        <pose>-0 -1.9975 0 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
       <link name='Wall_x_4_0'>
         <collision name='Wall_x_4_0_Collision'>
           <geometry>
@@ -1613,7 +1612,7 @@
     </model>
 
         <include>
-      <pose>-2.0 -0.5 0.01 0.0 0.0 0.0</pose>
+      <pose>0.1666 0.1666 0.01 0.0 0.0 0.0</pose>
       <uri>model://turtlebot3_burger</uri>
     </include>
   </world>
