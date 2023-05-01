@@ -1615,5 +1615,9 @@
       <pose>0.6666 1.3333 0.01 0.0 0.0 0.0</pose>
       <uri>model://turtlebot3_burger</uri>
     </include>
+    <include>
+      <pose>0.1667 0.1667 0.01 0.0 0.0 0.0</pose>
+      <uri>model://turtlebot3_burger_1</uri>
+    </include>
   </world>
 </sdf>

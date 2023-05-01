@@ -13,7 +13,7 @@ from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchD
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
+import xacro
 def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')
@@ -25,12 +25,16 @@ def generate_launch_description():
     ###
 
     ### URDF ###
-    urdf_file_name = 'turtlebot3_burger.urdf'
+    urdf_file_name = 'xxx.urdf'
     urdf = os.path.join(
-        get_package_share_directory('sim'),
+        package_dir,
         'urdf',
         urdf_file_name)
     ###
+    # doc = xacro.parse(open(urdf))
+    # xacro.process_doc(doc)
+    # params = {'robot_description': doc.toxml()}
+
 
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
 
@@ -75,9 +79,9 @@ def generate_launch_description():
         executable='spawn_entity.py',
         name='urdf_spawner',
         output='screen',
-        arguments=["-topic", "/robot_description", "-entity", "FIBOT","-x=-1.0", "-y=-3.5", "-Y=-1.57"]
+        arguments=["-topic", "/robot_description", "-entity"]
         ), 
-
+# , "FIBOT","-x=-1.0", "-y=-3.5", "-Y=-1.57"
     Node(
         package='rviz2',
         executable='rviz2',

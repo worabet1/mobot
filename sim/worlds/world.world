@@ -1611,9 +1611,5 @@
       <static>1</static>
     </model>
 
-        <include>
-      <pose>0.6666 1.3333 0.01 0.0 0.0 0.0</pose>
-      <uri>model://turtlebot3_burger</uri>
-    </include>
   </world>
 </sdf>
