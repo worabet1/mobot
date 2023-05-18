@@ -27,18 +27,27 @@ def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory('nav2_bringup')
 
-    namespace = LaunchConfiguration('namespace')
+    # namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
-    params_file = LaunchConfiguration('params_file')
+    params_file_0 = LaunchConfiguration('params_file_0')
+    params_file_1 = LaunchConfiguration('params_file_1')
+
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     map_subscribe_transient_local = LaunchConfiguration('map_subscribe_transient_local')
 
-    lifecycle_nodes = ['controller_server',
-                       'planner_server',
-                       'recoveries_server',
-                       'bt_navigator',
-                       'waypoint_follower']
+    lifecycle_nodes = [
+                        'tb3_0/controller_server',
+                       'tb3_0/planner_server',
+                       'tb3_0/recoveries_server',
+                       'tb3_0/bt_navigator',
+                       'tb3_0/waypoint_follower',
+                       'tb3_1/controller_server',
+                       'tb3_1/planner_server',
+                       'tb3_1/recoveries_server',
+                       'tb3_1/bt_navigator',
+                       'tb3_1/waypoint_follower'
+                       ]
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -60,13 +69,23 @@ def generate_launch_description():
         'default_bt_xml_filename': default_bt_xml_filename,
         'autostart': autostart,
         'map_subscribe_transient_local': map_subscribe_transient_local}
-
-    configured_params = RewrittenYaml(
-            source_file=params_file,
-            root_key=namespace,
+    param_substitutions_1 = {
+        'use_sim_time': use_sim_time,
+        'default_bt_xml_filename': os.path.join(
+            get_package_share_directory('nav2_bt_navigator'),
+            'behavior_trees', 'navigate_w_replanning_and_round_robin_recovery.xml'),
+        'autostart': autostart,
+        'map_subscribe_transient_local': map_subscribe_transient_local}
+    configured_params_0 = RewrittenYaml(
+            source_file=params_file_0,
+            # root_key='tb3_0',
             param_rewrites=param_substitutions,
             convert_types=True)
-
+    configured_params_1 = RewrittenYaml(
+            source_file=params_file_1,
+            # root_key='tb3_1',
+            param_rewrites=param_substitutions_1,
+            convert_types=True)
     return LaunchDescription([
         # Set env var to print messages to stdout immediately
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
@@ -100,42 +119,90 @@ def generate_launch_description():
             description='Whether to set the map subscriber QoS to transient local'),
 
         Node(
+            namespace='tb3_0',
             package='nav2_controller',
             executable='controller_server',
             output='screen',
-            parameters=[configured_params],
+            parameters=[configured_params_0],
             remappings=remappings),
 
         Node(
+            namespace='tb3_0',
             package='nav2_planner',
             executable='planner_server',
             name='planner_server',
             output='screen',
-            parameters=[configured_params],
+            parameters=[configured_params_0],
             remappings=remappings),
 
         Node(
+            namespace='tb3_0',
             package='nav2_recoveries',
             executable='recoveries_server',
             name='recoveries_server',
             output='screen',
-            parameters=[configured_params],
+            parameters=[configured_params_0],
             remappings=remappings),
 
         Node(
+            namespace='tb3_0',
             package='nav2_bt_navigator',
             executable='bt_navigator',
             name='bt_navigator',
             output='screen',
-            parameters=[configured_params],
+            parameters=[configured_params_0],
             remappings=remappings),
 
         Node(
+            namespace='tb3_0',
             package='nav2_waypoint_follower',
             executable='waypoint_follower',
             name='waypoint_follower',
             output='screen',
-            parameters=[configured_params],
+            parameters=[configured_params_0],
+            remappings=remappings),
+        Node(
+            namespace='tb3_1',
+            package='nav2_controller',
+            executable='controller_server',
+            output='screen',
+            parameters=[configured_params_1],
+            remappings=remappings),
+
+        Node(
+            namespace='tb3_1',
+            package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
+            output='screen',
+            parameters=[configured_params_1],
+            remappings=remappings),
+
+        Node(
+            namespace='tb3_1',
+            package='nav2_recoveries',
+            executable='recoveries_server',
+            name='recoveries_server',
+            output='screen',
+            parameters=[configured_params_1],
+            remappings=remappings),
+
+        Node(
+            namespace='tb3_1',
+            package='nav2_bt_navigator',
+            executable='bt_navigator',
+            name='bt_navigator',
+            output='screen',
+            parameters=[configured_params_1],
+            remappings=remappings),
+
+        Node(
+            namespace='tb3_1',
+            package='nav2_waypoint_follower',
+            executable='waypoint_follower',
+            name='waypoint_follower',
+            output='screen',
+            parameters=[configured_params_1],
             remappings=remappings),
 
         Node(
@@ -145,6 +212,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
+                        {'bond_timeout': 0.0},
                         {'node_names': lifecycle_nodes}]),
 
     ])

@@ -114,7 +114,25 @@ def generate_launch_description():
                               'params_file_0': params_file_0,
                               'params_file_1': params_file_1,
                               'use_lifecycle_mgr': 'false'}.items()),
-
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(os.path.join(launch_dir,
+        #                                                'multi_navigation_launch.py')),
+        #     launch_arguments={
+        #                       'use_sim_time': use_sim_time,
+        #                       'autostart': autostart,
+        #                       'params_file_0': params_file_0,
+        #                       'params_file_1': params_file_1,
+        #                       'use_lifecycle_mgr': 'false'}.items()),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'multi_navigation_launch.py')),
+            launch_arguments={
+                              'use_sim_time': use_sim_time,
+                              'autostart': autostart,
+                              'params_file_0': params_file_0,
+                              'params_file_1': params_file_1,
+                              'default_bt_xml_filename': default_bt_xml_filename,
+                              'use_lifecycle_mgr': 'false',
+                              'map_subscribe_transient_local': 'true'}.items()),
         # IncludeLaunchDescription(
         #     PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
         #     launch_arguments={'namespace': namespace,
