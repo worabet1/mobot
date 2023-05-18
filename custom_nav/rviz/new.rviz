@@ -7,6 +7,10 @@ Panels:
         - /Global Options1
         - /Status1
         - /Map1/Topic1
+        - /TF1
+        - /TF1/Frames1
+        - /tb3_01
+        - /Path1
       Splitter Ratio: 0.3314814865589142
     Tree Height: 541
   - Class: rviz_common/Selection
@@ -68,7 +72,7 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         map:
           Value: true
         tb3_0/base_footprint:
@@ -253,7 +257,7 @@ Visualization Manager:
           Class: rviz_default_plugins/Map
           Color Scheme: costmap
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: global
           Topic:
             Depth: 5
@@ -268,12 +272,12 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /tb3_0/global_costmap/costmap_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 0.5
           Class: rviz_default_plugins/Map
           Color Scheme: costmap
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: local
           Topic:
             Depth: 5
@@ -288,7 +292,7 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /tb3_0/local_costmap/costmap_updates
           Use Timestamp: false
-          Value: true
+          Value: false
       Enabled: true
       Name: tb3_0
     - Class: rviz_common/Group
@@ -482,6 +486,33 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /tb3_1/goal_pose
       Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz_default_plugins/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /tb3_1/plan
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -509,7 +540,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: tb3_0/goal_pose
+        Value: tb3_1/goal_pose
     - Class: rviz_default_plugins/PublishPoint
       Single click: true
       Topic:
@@ -525,16 +556,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 6.231968402862549
+      Distance: 2.9994378089904785
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.954145610332489
-        Y: 2.067169189453125
-        Z: -0.5431252717971802
+        X: 1.3311855792999268
+        Y: 2.3675038814544678
+        Z: -0.5434744358062744
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -543,7 +574,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.055397190153598785
+      Yaw: 6.203581809997559
     Saved: ~
 Window Geometry:
   Displays:

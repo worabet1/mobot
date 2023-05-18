@@ -84,7 +84,7 @@ def generate_launch_description():
     configured_params_1 = RewrittenYaml(
             source_file=params_file_1,
             # root_key='tb3_1',
-            param_rewrites=param_substitutions_1,
+            param_rewrites=param_substitutions,
             convert_types=True)
     return LaunchDescription([
         # Set env var to print messages to stdout immediately
