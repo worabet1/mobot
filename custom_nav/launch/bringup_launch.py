@@ -24,6 +24,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import PushRosNamespace
 from launch_ros.actions import Node
+
 def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory('custom_nav')
@@ -93,16 +94,6 @@ def generate_launch_description():
             condition=IfCondition(use_namespace),
             namespace=namespace),
 
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(os.path.join(launch_dir, 'slam_launch.py')),
-        #     condition=IfCondition(slam),
-        #     launch_arguments={'namespace': namespace,
-        #                       'use_sim_time': use_sim_time,
-        #                       'autostart': autostart,
-        #                       'params_file_0': params_file_0,
-        #                       'params_file_1': params_file_1
-        #                       }.items()),
-
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir,
                                                        'multi_localization_launch.py')),
@@ -114,15 +105,7 @@ def generate_launch_description():
                               'params_file_0': params_file_0,
                               'params_file_1': params_file_1,
                               'use_lifecycle_mgr': 'false'}.items()),
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(os.path.join(launch_dir,
-        #                                                'multi_navigation_launch.py')),
-        #     launch_arguments={
-        #                       'use_sim_time': use_sim_time,
-        #                       'autostart': autostart,
-        #                       'params_file_0': params_file_0,
-        #                       'params_file_1': params_file_1,
-        #                       'use_lifecycle_mgr': 'false'}.items()),
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir, 'multi_navigation_launch.py')),
             launch_arguments={
@@ -133,17 +116,6 @@ def generate_launch_description():
                               'default_bt_xml_filename': default_bt_xml_filename,
                               'use_lifecycle_mgr': 'false',
                               'map_subscribe_transient_local': 'true'}.items()),
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
-        #     launch_arguments={'namespace': namespace,
-        #                       'use_sim_time': use_sim_time,
-        #                       'autostart': autostart,
-        #                       'params_file_0': params_file_0,
-        #                       'params_file_1': params_file_1,
-        #                       'default_bt_xml_filename': default_bt_xml_filename,
-        #                       'use_lifecycle_mgr': 'false',
-        #                       'map_subscribe_transient_local': 'true'}.items()),
-        
     ])
     rvizlaunch = Node(package='rviz2',
                 executable='rviz2',

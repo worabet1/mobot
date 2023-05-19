@@ -39,7 +39,7 @@ tb3_0/amcl:
     z_short: 0.05
     scan_topic: "/tb3_0/scan"
     map_topic: "/map"
-    set_initial_pose: True
+    set_initial_pose: False
     initial_pose: 
 #      x: 1.70
 #      y: 1.80
@@ -47,8 +47,8 @@ tb3_0/amcl:
       # x: 0.8 
       # y: 0.0
       # yaw: 0.066
-      x: 1.53 
-      y: 1.86
+      x: 2.4
+      y: 3.32
       yaw: 0.066
 tb3_0/amcl_map_client:
   ros__parameters:

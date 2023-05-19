@@ -17,12 +17,31 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+# rosidl_generate_interfaces(${PROJECT_NAME}
+#   "action/Sendgoalpose.action"
+# )
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
-install(DIRECTORY launch urdf rviz worlds params maps
+install(DIRECTORY launch urdf rviz worlds params maps scripts
   DESTINATION share/${PROJECT_NAME}/
 )
+
+install(PROGRAMS
+  scripts/game_controller.py
+  scripts/publisher.py
+  scripts/sub.py
+  scripts/initial_pose.py
+  scripts/utils.py
+  scripts/robotpose.py
+  DESTINATION lib/${PROJECT_NAME}
+  )
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
