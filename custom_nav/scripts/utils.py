@@ -54,29 +54,29 @@ def init_pose(init):
     return xx,yy,float(w)
 import math
 
-def euler_from_quaternion(x, y, z, w):
-        """
-        Convert a quaternion into euler angles (roll, pitch, yaw)
-        roll is rotation around x in radians (counterclockwise)
-        pitch is rotation around y in radians (counterclockwise)
-        yaw is rotation around z in radians (counterclockwise)
-        """
-        t0 = +2.0 * (w * x + y * z)
-        t1 = +1.0 - 2.0 * (x * x + y * y)
-        roll_x = math.atan2(t0, t1)
+# def euler_from_quaternion(x, y, z, w):
+#         """
+#         Convert a quaternion into euler angles (roll, pitch, yaw)
+#         roll is rotation around x in radians (counterclockwise)
+#         pitch is rotation around y in radians (counterclockwise)
+#         yaw is rotation around z in radians (counterclockwise)
+#         """
+#         t0 = +2.0 * (w * x + y * z)
+#         t1 = +1.0 - 2.0 * (x * x + y * y)
+#         roll_x = math.atan2(t0, t1)
      
-        t2 = +2.0 * (w * y - z * x)
-        t2 = +1.0 if t2 > +1.0 else t2
-        t2 = -1.0 if t2 < -1.0 else t2
-        pitch_y = math.asin(t2)
+#         t2 = +2.0 * (w * y - z * x)
+#         t2 = +1.0 if t2 > +1.0 else t2
+#         t2 = -1.0 if t2 < -1.0 else t2
+#         pitch_y = math.asin(t2)
      
-        t3 = +2.0 * (w * z + x * y)
-        t4 = +1.0 - 2.0 * (y * y + z * z)
-        yaw_z = math.atan2(t3, t4)
+#         t3 = +2.0 * (w * z + x * y)
+#         t4 = +1.0 - 2.0 * (y * y + z * z)
+#         yaw_z = math.atan2(t3, t4)
      
         
-        return roll_x, pitch_y, yaw_z # in radians
-import numpy as np
+#         return roll_x, pitch_y, yaw_z # in radians
+# import numpy as np
 def rot2eul(R):
     sy = np.sqrt(R[0, 0]**2 + R[1, 0]**2)
     singular = sy < 1e-6
@@ -89,53 +89,111 @@ def rot2eul(R):
     return [z,y,x]
 
  
-def quaternion_rotation_matrix(Q):
-    """
-    Covert a quaternion into a full three-dimensional rotation matrix.
+# def quaternion_rotation_matrix(Q):
+#     """
+#     Covert a quaternion into a full three-dimensional rotation matrix.
  
-    Input
-    :param Q: A 4 element array representing the quaternion (q0,q1,q2,q3) 
+#     Input
+#     :param Q: A 4 element array representing the quaternion (q0,q1,q2,q3) 
  
-    Output
-    :return: A 3x3 element matrix representing the full 3D rotation matrix. 
-             This rotation matrix converts a point in the local reference 
-             frame to a point in the global reference frame.
-    """
-    # Extract the values from Q
-    x = Q[0]
-    y = Q[1]
-    z= Q[2]
-    w= Q[3]
+#     Output
+#     :return: A 3x3 element matrix representing the full 3D rotation matrix. 
+#              This rotation matrix converts a point in the local reference 
+#              frame to a point in the global reference frame.
+#     """
+#     # Extract the values from Q
+#     x = Q[0]
+#     y = Q[1]
+#     z= Q[2]
+#     w= Q[3]
      
-    # # First row of the rotation matrix
-    # r00 = 2 * (q0 * q0 + q1 * q1) - 1
-    # r01 = 2 * (q1 * q2 - q0 * q3)
-    # r02 = 2 * (q1 * q3 + q0 * q2)
+#     # # First row of the rotation matrix
+#     # r00 = 2 * (q0 * q0 + q1 * q1) - 1
+#     # r01 = 2 * (q1 * q2 - q0 * q3)
+#     # r02 = 2 * (q1 * q3 + q0 * q2)
      
-    # # Second row of the rotation matrix
-    # r10 = 2 * (q1 * q2 + q0 * q3)
-    # r11 = 2 * (q0 * q0 + q2 * q2) - 1
-    # r12 = 2 * (q2 * q3 - q0 * q1)
+#     # # Second row of the rotation matrix
+#     # r10 = 2 * (q1 * q2 + q0 * q3)
+#     # r11 = 2 * (q0 * q0 + q2 * q2) - 1
+#     # r12 = 2 * (q2 * q3 - q0 * q1)
      
-    # # Third row of the rotation matrix
-    # r20 = 2 * (q1 * q3 - q0 * q2)
-    # r21 = 2 * (q2 * q3 + q0 * q1)
-    # r22 = 2 * (q0 * q0 + q3 * q3) - 1
+#     # # Third row of the rotation matrix
+#     # r20 = 2 * (q1 * q3 - q0 * q2)
+#     # r21 = 2 * (q2 * q3 + q0 * q1)
+#     # r22 = 2 * (q0 * q0 + q3 * q3) - 1
      
-    # # 3x3 rotation matrix
-    # rot_matrix = np.array([[r00, r01, r02],
-    #                        [r10, r11, r12],
-    #                        [r20, r21, r22]])
+#     # # 3x3 rotation matrix
+#     # rot_matrix = np.array([[r00, r01, r02],
+#     #                        [r10, r11, r12],
+#     #                        [r20, r21, r22]])
     
-    return np.array([[1 - 2*y**2 - 2*z**2, 2*x*y - 2*z*w, 2*x*z + 2*y*w],
-                     [2*x*y + 2*z*w, 1 - 2*x**2 - 2*z**2, 2*y*z - 2*x*w],
-                     [2*x*z - 2*y*w, 2*y*z + 2*x*w, 1 - 2*x**2 - 2*y**2]])
+#     return np.array([[1 - 2*y**2 - 2*z**2, 2*x*y - 2*z*w, 2*x*z + 2*y*w],
+#                      [2*x*y + 2*z*w, 1 - 2*x**2 - 2*z**2, 2*y*z - 2*x*w],
+#                      [2*x*z - 2*y*w, 2*y*z + 2*x*w, 1 - 2*x**2 - 2*y**2]])
                             
-    # return rot_matrix
+#     # return rot_matrix
 
-# print(init_pose(2,2,'+x'))
+# # print(init_pose(2,2,'+x'))
 
-import math
+# import math
+# import numpy as np
 
+# def quat2mat(quaternion):
+#     q_a, q_b, q_c, q_w = quaternion
 
+#     rotation_matrix = np.array([
+#         [1 - 2*q_b*q_b - 2*q_c*q_c, 2*q_a*q_b - 2*q_c*q_w, 2*q_a*q_c + 2*q_b*q_w],
+#         [2*q_a*q_b + 2*q_c*q_w, 1 - 2*q_a*q_a - 2*q_c*q_c, 2*q_b*q_c - 2*q_a*q_w],
+#         [2*q_a*q_c - 2*q_b*q_w, 2*q_b*q_c + 2*q_a*q_w, 1 - 2*q_a*q_a - 2*q_b*q_b]
+#     ])
 
+#     return rotation_matrix
+
+import numpy as np
+from transforms3d.quaternions import quat2mat, qmult
+from transforms3d.affines import compose, decompose
+
+def calculate_pose(h1,h2):
+    [x1, y1, z1, q1_a, q1_b, q1_c, q1_w] = h1
+    [x2, y2, z2, q2_a, q2_b, q2_c, q2_w] = h2
+    # Convert the quaternions to rotation matrices
+    rotation_matrix1 = quat2mat([q1_w, q1_a, q1_b, q1_c])
+    rotation_matrix2 = quat2mat([q2_w, q2_a, q2_b, q2_c])
+
+    # Create the translation vectors
+    translation1 = np.array([x1, y1, z1])
+    translation2 = np.array([x2, y2, z2])
+
+    # Compose the transformation matrices for frame 1 to frame 2 and frame 2 to frame 3
+    transform1_to_2 = np.eye(4)
+    transform1_to_2[:3, :3] = rotation_matrix2
+    transform1_to_2[:3, 3] = translation2
+    transform2_to_3 = np.eye(4)
+    transform2_to_3[:3, :3] = rotation_matrix1
+    transform2_to_3[:3, 3] = translation1
+
+    # transform1_to_2 = compose(translation2, rotation_matrix2)
+    # transform2_to_3 = compose(translation1, rotation_matrix1)
+
+    # Calculate the transformation from frame 1 to frame 3
+    transform1_to_3 = np.dot(transform2_to_3, transform1_to_2)
+
+    # Extract the position and orientation from the transformation matrix
+    position, orientation, _, _ = decompose(transform1_to_3)
+    return position, orientation
+
+# # Example values
+# x1, y1, z1 = 1.0, 2.0, 3.0
+# q1_a, q1_b, q1_c, q1_w = 0.1, 0.2, 0.3, 0.4
+# x2, y2, z2 = 4.0, 5.0, 6.0
+# q2_a, q2_b, q2_c, q2_w = 0.5, 0.6, 0.7, 0.8
+
+# # Calculate the transformation from frame 1 to frame 3
+# position, orientation = calculate_pose(x1, y1, z1, q1_a, q1_b, q1_c, q1_w, x2, y2, z2, q2_a, q2_b, q2_c, q2_w)
+
+# # Print the resulting position and orientation
+# print("Position:")
+# print(position)
+
+# print("Orientation:")
+# print(orientation)

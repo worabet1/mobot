@@ -1,3 +1,8 @@
-geometry_msgs/PoseStamped goal_pose
+# geometry_msgs/PoseStamped goal_pose
+# ---
+# bool success
+int32 order
 ---
-bool success
+int32[] sequence
+---
+int32[] partial_sequence

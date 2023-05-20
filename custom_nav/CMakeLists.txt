@@ -22,9 +22,9 @@ find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-# rosidl_generate_interfaces(${PROJECT_NAME}
-#   "action/Sendgoalpose.action"
-# )
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "action/Sendgoalpose.action"
+)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -39,6 +39,8 @@ install(PROGRAMS
   scripts/initial_pose.py
   scripts/utils.py
   scripts/robotpose.py
+  scripts/sendgoalpose.py
+  scripts/sendgoalposeclient.py
   DESTINATION lib/${PROJECT_NAME}
   )
 
