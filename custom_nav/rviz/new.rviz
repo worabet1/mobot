@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /Map1/Topic1
-        - /TF1
         - /TF1/Frames1
         - /Odometry1/Shape1
       Splitter Ratio: 0.3314814865589142
@@ -75,7 +74,7 @@ Visualization Manager:
         map:
           Value: true
         tb3_0/base_footprint:
-          Value: false
+          Value: true
         tb3_0/base_link:
           Value: false
         tb3_0/base_scan:
@@ -85,7 +84,7 @@ Visualization Manager:
         tb3_0/imu_link:
           Value: false
         tb3_0/odom:
-          Value: false
+          Value: true
         tb3_0/wheel_left_link:
           Value: false
         tb3_0/wheel_right_link:
@@ -154,7 +153,7 @@ Visualization Manager:
             History Policy: Keep Last
             Reliability Policy: Reliable
             Value: /tb3_0/robot_description
-          Enabled: true
+          Enabled: false
           Links:
             All Links Enabled: true
             Expand Joint Details: false
@@ -164,7 +163,7 @@ Visualization Manager:
           Name: RobotModel
           TF Prefix: ""
           Update Interval: 0
-          Value: true
+          Value: false
           Visual Enabled: true
         - Alpha: 1
           Autocompute Intensity Bounds: true
@@ -259,7 +258,7 @@ Visualization Manager:
             Value: /tb3_0/local_costmap/costmap_updates
           Use Timestamp: false
           Value: false
-      Enabled: false
+      Enabled: true
       Name: tb3_0
     - Class: rviz_common/Group
       Displays:
@@ -379,7 +378,7 @@ Visualization Manager:
             Value: /tb3_1/global_costmap/costmap_updates
           Use Timestamp: false
           Value: true
-      Enabled: false
+      Enabled: true
       Name: tb3_1
     - Alpha: 1
       Axes Length: 1
@@ -539,25 +538,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.614925384521484
+      Distance: 5.1469292640686035
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.3487008810043335
-        Y: 1.733012318611145
-        Z: -0.542305588722229
+        X: 2.483882427215576
+        Y: 4.387292861938477
+        Z: -0.5681562423706055
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5497963428497314
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.11539646983146667
+      Yaw: 0.025396456941962242
     Saved: ~
 Window Geometry:
   Displays:

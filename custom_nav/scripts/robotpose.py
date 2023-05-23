@@ -3,9 +3,8 @@ import rclpy
 from rclpy.node import Node
 import tf2_ros
 from tf2_msgs.msg import TFMessage
-# from utils import euler_from_quaternion
-# from utils import quaternion_rotation_matrix , rot2eul , mapoffset
-from utils import calculate_pose , mapoffset ,rot2eul
+from geometry_msgs.msg import PoseStamped
+from utils import calculate_pose , mapoffset ,rot2eul,choosePath,possible_path,wall
 import numpy as np
 import math
 class MinimalSubscriber(Node):
@@ -13,6 +12,11 @@ class MinimalSubscriber(Node):
         super().__init__('tf_cal')
         self.odomtobase = []
         self.maptoodom = []
+        self.pointx = 0
+        self.pointy = 0
+        self.yaw = 0
+        self.num =0
+        self.path=[]
         self.subscription = self.create_subscription(
             TFMessage,
             '/tf',
@@ -20,9 +24,45 @@ class MinimalSubscriber(Node):
             10
         )
         self.map = mapoffset(0,0)
+        
+
+        # super().__init__('pub_goal_tb3_1')
+        self.pub_goal_1 = self.create_publisher(PoseStamped, '/tb3_1/goal_pose', 10)
+        self.timer = self.create_timer(1.0, self.timer_callback)
+
+    def timer_callback(self):
+        if(len(self.path)==0):
+            self.path=choosePath(possible_path([0,0],[3,4],wall(1,1,1)),'+x')
+        prerotation=[self.path[self.num][0]-self.path[self.num+1][0],self.path[self.num][1]-self.path[self.num+1][1]]
+        if(prerotation==[-1,0]):
+            rotation=0
+        elif(prerotation==[1,0]):
+            rotation=180
+        elif(prerotation==[0,-1]):
+            rotation=90
+        elif(prerotation==[0,1]):
+            rotation=270
+        pose_msg = PoseStamped()
+        pose_msg.header.stamp = self.get_clock().now().to_msg()
+        pose_msg.header.frame_id = 'map'
+        pose_msg.pose.position.x = ((self.path[self.num][0]+self.path[self.num+1][0])/2+0.5)*1/3+(1.62-2/12)
+        pose_msg.pose.position.y = ((self.path[self.num][1]+self.path[self.num+1][1])/2+0.5)*1/3+ (3.395 - (2/12))
+        pose_msg.pose.position.z = 0.0
+        pose_msg.pose.orientation.x = 0.0
+        pose_msg.pose.orientation.y = 0.0
+        pose_msg.pose.orientation.z = math.sin(rotation*math.pi/180/2)
+        pose_msg.pose.orientation.w = math.cos(rotation*math.pi/180/2)
+        if ([self.pointx,self.pointy]==self.path[self.num]):
+            if self.num < len(self.path) - 2:
+                self.num+=1
+        self.pub_goal_1.publish(pose_msg)
+        # self.get_logger().info('Published pose')
+        # print(self.num)
+        print('*******CurrentPose*******')
+        print(self.pointx,self.pointy,self.yaw)
+
 
     def subscription_callback(self, msg):
-        # print(msg.transforms)
         for transform in msg.transforms:
             if transform.child_frame_id == 'tb3_1/base_footprint' and transform.header.frame_id == 'tb3_1/odom':
                 self.odomtobase = [transform.transform.translation.x,
@@ -40,42 +80,17 @@ class MinimalSubscriber(Node):
                              transform.transform.rotation.y,
                              transform.transform.rotation.z,
                              transform.transform.rotation.w]
-        # print(self.odomtobase)
-        # print(self.maptoodom)
         if ((self.odomtobase) and (self.maptoodom)):
             position, orientation = calculate_pose(self.maptoodom,self.odomtobase)
             rotation = rot2eul(orientation)
-            # print(position,)
-            # elmto=quaternion_rotation_matrix([self.maptoodom[3],self.maptoodom[4],self.maptoodom[5],self.maptoodom[6]])
-            # elotb=quaternion_rotation_matrix([self.odomtobase[3],self.odomtobase[4],self.odomtobase[5],self.odomtobase[6]])
-            # rotate=np.dot(elmto,elotb)
-            # t1=np.dot(rotate,np.matrix([[self.odomtobase[0]],[self.odomtobase[1]],[self.odomtobase[2]]]))
-            # translation=[t1[0,0]+self.maptoodom[0],t1[1,0]+self.maptoodom[1],t1[2,0]+self.maptoodom[2]]
-            # rotation1=rot2eul(elmto)
-            # rotation2=rot2eul(elotb)
-            # rotation=rot2eul(rotate)
-            # # print(translation)
-            # # print(rotation)
-            pointx = int(math.floor((position[0] - 1.62+(2/12)) / (1/3)))
-            pointy = int(math.floor((position[1] - 3.395 + (2/12)) / (1/3)))
-            yaw = (int(((rotation[0] *180/math.pi) +360)*10) % 3600)/10.0
-
-            print([[(position[0] - 1.62+0.16666),pointx],[(position[1] - 3.395+0.16666),pointy],yaw])
-            print('*'*10)
+            self.pointx = int(math.floor((position[0] - 1.62+(2/12)) / (1/3)))
+            self.pointy = int(math.floor((position[1] - 3.395 + (2/12)) / (1/3)))
+            self.yaw = (int(((rotation[0] *180/math.pi) +360)*10) % 3600)/10.0
         else:
+            print('else')
             pass
+        # print('sub tf *******************')
         
-
-
-        self.get_logger().info('_________________________________________-')
-
-        # if msg.child_frame_id == 'base_footprint' and msg.header.frame_id == 'map':
-            # try:
-            #     transform = self.tf_buffer.transform(msg.header.frame_id, msg.child_frame_id, msg.header.stamp)
-            #     self.publisher.publish(transform)
-            #     self.get_logger().info('Published base_footprint to map transform')
-            # except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
-            #     self.get_logger().error(str(e))
 
 def main(args=None):
     rclpy.init(args=args)
@@ -86,4 +101,4 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
+    print('end main')

@@ -1,5 +1,6 @@
 start = 1/6
 tilerange = 1/3
+
 def mapoffset(x,y):
     map = []
     for i in range (6):
@@ -15,7 +16,196 @@ def mapoffset(x,y):
             map[i][j][1] = map[i][j][1] + y
     return map
 
-# print(mapoffset(1,2))
+# wall(0,0,0) (1,0,0)  (0,1,0) (1,1,0) (0,0,1) (1,0,1)
+def wall(d1,d2,d3):
+    grid_paths = {
+        (0, 0): {
+            (1, 0): 1,(0, 1): 1
+        },
+        (0, 1): {
+            (0, 0): 1,(1, 1): 0,(0, 2): 1
+        },
+        (0, 2): {
+            (0, 1): 1,(1, 2): 1 ,(0, 3): 1
+        },
+        (0, 3): {
+            (0, 2): 1,(1, 3): 1 ,(0, 4): 1
+        },
+        (0, 4): {
+            (0, 3): 1,(1, 4): 1 ,(0, 5): 1
+        },
+        (0, 5): {
+            (0, 4): 1,(1, 5): 1
+        },
+        (1, 0): {
+            (0, 0): 1,(1, 1): 1,(2, 0): 0
+        },
+        (1, 1): {
+            (1, 0): 1,(1, 2): 0,(0, 1): 0,(2, 1): 1
+        },
+        (1, 2): {
+            (1, 1): 0,(1, 3): 0,(0, 2): 1,(2, 2): 1
+        },
+        (1, 3): {
+            (1, 2): 0,(1, 4): 1,(0, 3): 1,(2, 3): d2
+        },
+        (1, 4): {
+            (1, 3): 1,(1, 5): 0,(0, 4): 1,(2, 4): 0
+        },
+        (1, 5): {
+            (1, 4): 0,(0, 5): 1,(2, 5): 1
+        },
+        (2, 0): {
+            (2, 1): 1,(1, 0): 0,(3, 0): 1
+        },
+        (2, 1): {
+            (2, 0): 1,(2, 2): 1,(1, 1): 1,(3, 1): 0
+        },
+        (2, 2): {
+            (2, 1): 1,(2, 3): 1,(1, 2): 1,(3, 2): 0
+        },
+        (2, 3): {
+            (2, 2): 1,(2, 4): d3,(1, 3): d2,(3, 3): 1
+        },
+        (2, 4): {
+            (2, 3): d3,(2, 5): 1,(1, 4): 0,(3, 4): 1
+        },
+        (2, 5): {
+            (2, 4): 1,(1, 5): 1,(3, 5): 1
+        },
+        (3, 0): {
+            (3, 1): 1,(2, 0): 1,(4, 0): 1
+        },
+        (3, 1): {
+            (3, 0): 1,(3, 2): 1,(2, 1): 0,(4, 1): 1
+        },
+        (3, 2): {
+            (3, 1): 1,(3, 3): 1,(2, 2): 0,(4, 2): 1
+        },
+        (3, 3): {
+            (3, 2): 1,(3, 4): 0,(2, 3): 1,(4, 3): 0
+        },
+        (3, 4): {
+            (3, 3): 0,(3, 5): 1,(2, 4): 1,(4, 4): 0
+        },
+        (3, 5): {
+            (3, 4): 1,(2, 5): 1,(4, 5): 1
+        },
+        (4, 0): {
+            (4, 1): 0,(3, 0): 1,(5, 0): 1
+        },
+        (4, 1): {
+            (4, 0): 0,(4, 2): 1,(3, 1): 1,(5, 1): 0
+        },
+        (4, 2): {
+            (4, 1): 1,(4, 3): d1,(3, 2): 1,(5, 2): 0
+        },
+        (4, 3): {
+            (4, 2): d1,(4, 4): 1,(3, 3): 0,(5, 3): 1
+        },
+        (4, 4): {
+            (4, 3): 1,(4, 5): 0,(3, 4): 0,(5, 4): 1
+        },
+        (4, 5): {
+            (4, 4): 0,(3, 5): 1,(5, 5): 1
+        },
+        (5, 0): {
+            (4, 0): 1,(5, 1): 1
+        },
+        (5, 1): {
+            (5, 0): 1,(4, 1): 0,(5, 2): 1
+        },
+        (5, 2): {
+            (5, 1): 1,(4, 2): 0 ,(5, 3): 1
+        },
+        (5, 3): {
+            (5, 2): 1,(4, 3): 1 ,(5, 4): 0
+        },
+        (5, 4): {
+            (5, 3): 0,(4, 4): 1 ,(5, 5): 1
+        },
+        (5, 5): {
+            (5, 4): 1,(4, 5): 1
+        }
+    }
+    return grid_paths
+
+def possible_path(start,end,wall):
+    allpath = []
+    unfinishpath = [[[start[0],start[1]]]]
+    z = 1
+    leastpathn = 100000
+    while 1:
+        for path in unfinishpath:
+            if len(path)> leastpathn:
+                unfinishpath.remove(path)
+            else:
+                pathend = path[len(path)-1] #[0,0]
+                if pathend != end:
+                    availablepath = []
+                    if pathend[0]>=1:
+                        availablepath.append([pathend[0]-1,pathend[1]])
+                    if pathend[0] <=4:
+                        availablepath.append([pathend[0]+1,pathend[1]])
+                    if pathend[1]>=1:
+                        availablepath.append([pathend[0],pathend[1]-1])
+                    if pathend[1] <=4:
+                        availablepath.append([pathend[0],pathend[1]+1])
+                    check = 0
+                    check2 = len(availablepath)
+                    for i in availablepath:
+                        if (i not in path) and wall[(pathend[0],pathend[1])][(i[0],i[1])]:
+                            temp = path.copy()
+                            temp.append(i)
+                            unfinishpath.append(temp)
+                            if path in unfinishpath:
+                                check = 1
+                        else:
+                            check2 -= 1
+                    if(check2 == 0):
+                        unfinishpath.remove(path)
+                    if check:
+                        unfinishpath.remove(path)
+                else:
+                    leastpathn = len(path)
+                    allpath.append(path)
+                    unfinishpath.remove(path)       
+
+        if len(unfinishpath) == 0:
+            break
+    return allpath
+# print(possible_path([0,0],[5,5],wall(1,1,1)))
+
+def choosePath(possiblePath,yaw):
+    rank=[]
+    for item in possiblePath:
+        leaw = 0
+        flag = 0
+        if(yaw=="+x"):
+            y=[-1 ,0]
+        elif(yaw=="-x"):
+            y=[1 ,0]
+        elif(yaw=="+y"):
+            y=[0 ,-1]
+        elif(yaw=="-y"):
+            y=[0 ,1]    
+        for i in range(len(item)-1):
+            xb = item[i][0]
+            yb = item[i][1]
+            xa = item[i+1][0]
+            ya = item[i+1][1]
+            x=[xb-xa ,yb-ya ]
+            if x != y:
+                if flag == 0:
+                    leaw +=1000
+                leaw +=1
+            flag = 1
+            y = x
+        rank.append(leaw)
+    finalPath = possiblePath[rank.index(min(rank))]
+    return finalPath
+# print(choosePath(possible_path([0,0],[5,5],wall(1,1,1)),'+x'))
+
 def euler_to_quaternion(roll, pitch, yaw):
     # Convert yaw from degrees to radians
     yaw_rad = math.radians(yaw)
@@ -53,30 +243,6 @@ def init_pose(init):
     yy = ((y-1)*2/6) + 3.395
     return xx,yy,float(w)
 import math
-
-# def euler_from_quaternion(x, y, z, w):
-#         """
-#         Convert a quaternion into euler angles (roll, pitch, yaw)
-#         roll is rotation around x in radians (counterclockwise)
-#         pitch is rotation around y in radians (counterclockwise)
-#         yaw is rotation around z in radians (counterclockwise)
-#         """
-#         t0 = +2.0 * (w * x + y * z)
-#         t1 = +1.0 - 2.0 * (x * x + y * y)
-#         roll_x = math.atan2(t0, t1)
-     
-#         t2 = +2.0 * (w * y - z * x)
-#         t2 = +1.0 if t2 > +1.0 else t2
-#         t2 = -1.0 if t2 < -1.0 else t2
-#         pitch_y = math.asin(t2)
-     
-#         t3 = +2.0 * (w * z + x * y)
-#         t4 = +1.0 - 2.0 * (y * y + z * z)
-#         yaw_z = math.atan2(t3, t4)
-     
-        
-#         return roll_x, pitch_y, yaw_z # in radians
-# import numpy as np
 def rot2eul(R):
     sy = np.sqrt(R[0, 0]**2 + R[1, 0]**2)
     singular = sy < 1e-6
@@ -88,66 +254,6 @@ def rot2eul(R):
     z = np.arctan2(R[1, 0], R[0, 0])
     return [z,y,x]
 
- 
-# def quaternion_rotation_matrix(Q):
-#     """
-#     Covert a quaternion into a full three-dimensional rotation matrix.
- 
-#     Input
-#     :param Q: A 4 element array representing the quaternion (q0,q1,q2,q3) 
- 
-#     Output
-#     :return: A 3x3 element matrix representing the full 3D rotation matrix. 
-#              This rotation matrix converts a point in the local reference 
-#              frame to a point in the global reference frame.
-#     """
-#     # Extract the values from Q
-#     x = Q[0]
-#     y = Q[1]
-#     z= Q[2]
-#     w= Q[3]
-     
-#     # # First row of the rotation matrix
-#     # r00 = 2 * (q0 * q0 + q1 * q1) - 1
-#     # r01 = 2 * (q1 * q2 - q0 * q3)
-#     # r02 = 2 * (q1 * q3 + q0 * q2)
-     
-#     # # Second row of the rotation matrix
-#     # r10 = 2 * (q1 * q2 + q0 * q3)
-#     # r11 = 2 * (q0 * q0 + q2 * q2) - 1
-#     # r12 = 2 * (q2 * q3 - q0 * q1)
-     
-#     # # Third row of the rotation matrix
-#     # r20 = 2 * (q1 * q3 - q0 * q2)
-#     # r21 = 2 * (q2 * q3 + q0 * q1)
-#     # r22 = 2 * (q0 * q0 + q3 * q3) - 1
-     
-#     # # 3x3 rotation matrix
-#     # rot_matrix = np.array([[r00, r01, r02],
-#     #                        [r10, r11, r12],
-#     #                        [r20, r21, r22]])
-    
-#     return np.array([[1 - 2*y**2 - 2*z**2, 2*x*y - 2*z*w, 2*x*z + 2*y*w],
-#                      [2*x*y + 2*z*w, 1 - 2*x**2 - 2*z**2, 2*y*z - 2*x*w],
-#                      [2*x*z - 2*y*w, 2*y*z + 2*x*w, 1 - 2*x**2 - 2*y**2]])
-                            
-#     # return rot_matrix
-
-# # print(init_pose(2,2,'+x'))
-
-# import math
-# import numpy as np
-
-# def quat2mat(quaternion):
-#     q_a, q_b, q_c, q_w = quaternion
-
-#     rotation_matrix = np.array([
-#         [1 - 2*q_b*q_b - 2*q_c*q_c, 2*q_a*q_b - 2*q_c*q_w, 2*q_a*q_c + 2*q_b*q_w],
-#         [2*q_a*q_b + 2*q_c*q_w, 1 - 2*q_a*q_a - 2*q_c*q_c, 2*q_b*q_c - 2*q_a*q_w],
-#         [2*q_a*q_c - 2*q_b*q_w, 2*q_b*q_c + 2*q_a*q_w, 1 - 2*q_a*q_a - 2*q_b*q_b]
-#     ])
-
-#     return rotation_matrix
 
 import numpy as np
 from transforms3d.quaternions import quat2mat, qmult
@@ -181,19 +287,3 @@ def calculate_pose(h1,h2):
     # Extract the position and orientation from the transformation matrix
     position, orientation, _, _ = decompose(transform1_to_3)
     return position, orientation
-
-# # Example values
-# x1, y1, z1 = 1.0, 2.0, 3.0
-# q1_a, q1_b, q1_c, q1_w = 0.1, 0.2, 0.3, 0.4
-# x2, y2, z2 = 4.0, 5.0, 6.0
-# q2_a, q2_b, q2_c, q2_w = 0.5, 0.6, 0.7, 0.8
-
-# # Calculate the transformation from frame 1 to frame 3
-# position, orientation = calculate_pose(x1, y1, z1, q1_a, q1_b, q1_c, q1_w, x2, y2, z2, q2_a, q2_b, q2_c, q2_w)
-
-# # Print the resulting position and orientation
-# print("Position:")
-# print(position)
-
-# print("Orientation:")
-# print(orientation)
