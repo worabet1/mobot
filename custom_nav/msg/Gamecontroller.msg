@@ -1,0 +1,10 @@
+int64 gamestate
+int64 doorstate1
+int64 doorstate2
+int64 timeremaining
+int64 thiefposex
+int64 thiefposey
+int64 policeposex
+int64 policeposey
+int64 gamefinish
+std_msgs/UInt16MultiArray escapedoor

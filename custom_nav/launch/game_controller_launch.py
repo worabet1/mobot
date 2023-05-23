@@ -12,30 +12,35 @@ offsety = 3.00
 offsetyaw = 5.0
 def generate_launch_description():
     
-    # initfile = LaunchConfiguration('initpose')
-
-    DeclareLaunchArgument(
-        'initpose',
-        default_value=os.path.join(get_package_share_directory("custom_nav"),'params',"initpose.yaml"),
-        description='Full path to init_pose yaml file to load'),
-    
     initial_node = Node(
             package='custom_nav',
             executable='initial_pose.py',
-            name='game_controller',
+            name='initPose',
             output='screen',
-            # parameters=[initfile]
         )
-    custom_node = Node(
+    gamecontroller_node = Node(
         package='custom_nav',
         executable='game_controller.py',
-        # arguments=['arg1', 'arg2'],
+        name='gameController',
         output='screen',
     )
-
+    robot0_node = Node(
+        package='custom_nav',
+        executable='robot0.py',
+        name='robot0Node',
+        output='screen',
+    )
+    robot1_node = Node(
+        package='custom_nav',
+        executable='robot1.py',
+        name='robot1Node',
+        output='screen',
+    )
     # Create the launch description and add the custom node
     ld = LaunchDescription()
     ld.add_action(initial_node)
-    # ld.add_action(custom_node)
+    ld.add_action(gamecontroller_node)
+    # ld.add_action(robot0_node)
+    # ld.add_action(robot1_node)
 
     return ld

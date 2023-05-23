@@ -1,6 +1,15 @@
 start = 1/6
 tilerange = 1/3
-
+def degreetoface(yaw):
+    if yaw>45 and yaw <=135:
+        ans = '+y'
+    if yaw>135 and yaw <=215:
+        ans = '-x'
+    if yaw>=215 and yaw <=305:
+        ans = '-y'
+    if yaw>305 or yaw <=45:
+        ans = '+x'
+    return ans
 def mapoffset(x,y):
     map = []
     for i in range (6):
@@ -8,8 +17,8 @@ def mapoffset(x,y):
         for j in range(6):
             temp.append([start+tilerange*i,start+tilerange*j])
         map.append(temp)
-    print(map)
-    print("______________")
+    # print(map)
+    # print("______________")
     for i in range(6):
         for j in range(6):
             map[i][j][0] = map[i][j][0] + x
@@ -17,7 +26,20 @@ def mapoffset(x,y):
     return map
 
 # wall(0,0,0) (1,0,0)  (0,1,0) (1,1,0) (0,0,1) (1,0,1)
-def wall(d1,d2,d3):
+def wall(door1,door2):
+    if door1 ==0:
+        d1 = 1
+    if door1 == 1:
+        d1 = 0
+    if door2 == 0:
+        d2 = 1
+        d3 = 1
+    if door2 == 1:
+        d2 = 0
+        d3 = 1
+    if door2 == 2:
+        d2 = 1
+        d3 = 0
     grid_paths = {
         (0, 0): {
             (1, 0): 1,(0, 1): 1
@@ -129,7 +151,51 @@ def wall(d1,d2,d3):
         }
     }
     return grid_paths
+grid00= [ [0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
 
+def costmappolish(positionpolishx,positionpolishy,wall):
+
+    posx=positionpolishx
+    posy=positionpolishy
+    grid=[ [0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
+    start= 1
+    stamp=[[posx,posy,36]]
+    lap=36
+    gain = 1
+    round=0
+    grid[posx][posy]=lap
+    while start:
+        i=stamp[round]
+        lap=i[2]-1*gain
+        availablepath = []
+        if i[0]>=1:
+            availablepath.append([i[0]-1,i[1]])
+        if i[0] <=4:
+            availablepath.append([i[0]+1,i[1]])
+        if i[1]>=1:
+            availablepath.append([i[0],i[1]-1])
+        if i[1] <=4:
+            availablepath.append([i[0],i[1]+1])
+        for y in availablepath:
+            # print(i[0],i[1],y[0],y[1])
+            if wall[(i[0],i[1])][(y[0],y[1])]:
+                if(grid[y[0]][y[1]]<lap):
+                    grid[y[0]][y[1]]=lap
+                
+                if([y[0],y[1],grid[y[0]][y[1]]] not in grid) :
+                    stamp.append([y[0],y[1],lap])
+        round+=1
+        check = 0
+        for j in grid:
+            if 0 in j:
+                check +=1
+        if check == 0:
+            start=0
+
+        
+    return grid
+
+# print(costmappolish(2,3,wall(0,0)))
 def possible_path(start,end,wall):
     allpath = []
     unfinishpath = [[[start[0],start[1]]]]
@@ -169,8 +235,7 @@ def possible_path(start,end,wall):
                 else:
                     leastpathn = len(path)
                     allpath.append(path)
-                    unfinishpath.remove(path)       
-
+                    unfinishpath.remove(path)      
         if len(unfinishpath) == 0:
             break
     return allpath
@@ -204,8 +269,77 @@ def choosePath(possiblePath,yaw):
         rank.append(leaw)
     finalPath = possiblePath[rank.index(min(rank))]
     return finalPath
-# print(choosePath(possible_path([0,0],[5,5],wall(1,1,1)),'+x'))
+print(choosePath(possible_path([0,0],[5,5],wall(0,0)),'+x'))
 
+def thiefpathtoescapepolice(positionpolishx,positionpolishy,positionthiefx,positionthiefy,wall,thiefyaw):
+    pox=positionpolishx
+    poy=positionpolishy
+    tfx=positionthiefx
+    tfy=positionthiefy
+    costmappolice=costmappolish(pox,poy,wall)
+    gain =1 
+    costmap_inuse = []
+    for i in costmappolice :
+        cost_blank = []
+        for j in i :
+            cost_blank.append(j - costmappolice[tfx][tfy])
+        costmap_inuse.append(cost_blank)
+    value = 0
+    index = []
+    for i in range (6):
+        for j in range(6):
+            if costmap_inuse[i][j] < value:
+                value = costmap_inuse[i][j]
+    for i in range (6):
+        for j in range(6):
+            if(value == costmap_inuse[i][j]):
+                index.append([i,j])
+    rank = []
+    path = []
+    for i in index:
+        rank.append(len(choosePath(possible_path([tfx,tfy],[i[0],i[1]],wall),thiefyaw)))
+        path.append(choosePath(possible_path([tfx,tfy],[i[0],i[1]],wall),thiefyaw))
+    answer = path[rank.index(min(rank))]
+    return answer
+print(thiefpathtoescapepolice(0,0,2,3,wall(0,0),'+x'))
+
+def thiefpathtoexit(positionpolishx,positionpolishy,positionthiefx,positionthiefy,wall,thiefyaw,escapedoor):
+    pox=positionpolishx
+    poy=positionpolishy
+    tfx=positionthiefx
+    tfy=positionthiefy
+    costmappolice=costmappolish(pox,poy,wall)
+    gain =1 
+    costmap_inuse = []
+    for i in costmappolice :
+        cost_blank = []
+        for j in i :
+            cost_blank.append(j - costmappolice[pox][poy])
+        costmap_inuse.append(cost_blank)
+    costmap_distant=costmappolish(tfx,tfy,wall)
+    gaindistant=-1.5
+    gainpolish=1
+    combinecostmap=[]
+    for i  in range(6):
+        cost_blank = []
+        for j in range(6) :
+            cost_blank.append((gainpolish*costmap_inuse[i][j])+(gaindistant*(costmap_distant[i][j]-36)))
+        combinecostmap.append(cost_blank)
+    # print(costmap_inuse)
+    # print(costmap_distant)
+    # print(combinecostmap)
+    costmaprank = []
+    escapedoorindex = [[0,0],[3,0],[5,3],[2,5]]
+    for i in range(len(escapedoor)):
+        if escapedoor[i] == 0:
+            costmaprank.append(10000000)
+        else:
+            costmaprank.append(combinecostmap[escapedoorindex[i][0]][escapedoorindex[i][1]])
+    print(costmaprank)
+    chosendoor = costmaprank.index(min(costmaprank))
+    path = choosePath(possible_path([tfx,tfy],escapedoorindex[chosendoor],wall),thiefyaw)
+    return path
+# print(thiefpathtoexit(0,0,2,0,wall(0,0),'+x',[0,1,1,0]))
 def euler_to_quaternion(roll, pitch, yaw):
     # Convert yaw from degrees to radians
     yaw_rad = math.radians(yaw)

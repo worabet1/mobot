@@ -1,0 +1,8 @@
+int64 door1state
+int64 door2state
+int64 gamestate
+int64 gametime
+---
+int64 door1respond
+int64 door2respond
+int64 gamerespond

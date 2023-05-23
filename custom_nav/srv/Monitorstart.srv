@@ -1,0 +1,4 @@
+int64 gamestate
+int64 gametime
+---
+int64 gamerespond

@@ -21,10 +21,14 @@ find_package(rclpy REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "action/Sendgoalpose.action"
+  "srv/Monitorcontinuous.srv"
+  "srv/Monitorstart.srv"
+  "msg/Gamecontroller.msg"
+  "msg/RobotPose.msg"
+  DEPENDENCIES std_msgs
 )
+
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -34,13 +38,11 @@ install(DIRECTORY launch urdf rviz worlds params maps scripts
 
 install(PROGRAMS
   scripts/game_controller.py
-  scripts/publisher.py
-  scripts/sub.py
   scripts/initial_pose.py
   scripts/utils.py
-  scripts/robotpose.py
-  scripts/sendgoalpose.py
-  scripts/sendgoalposeclient.py
+  scripts/robot1.py
+  scripts/robot0.py
+  scripts/monitor.py
   DESTINATION lib/${PROJECT_NAME}
   )
 
