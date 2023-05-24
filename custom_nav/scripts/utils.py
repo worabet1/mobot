@@ -269,7 +269,7 @@ def choosePath(possiblePath,yaw):
         rank.append(leaw)
     finalPath = possiblePath[rank.index(min(rank))]
     return finalPath
-print(choosePath(possible_path([0,0],[5,5],wall(0,0)),'+x'))
+# print(choosePath(possible_path([0,0],[5,5],wall(0,0)),'+x'))
 
 def thiefpathtoescapepolice(positionpolishx,positionpolishy,positionthiefx,positionthiefy,wall,thiefyaw):
     pox=positionpolishx
@@ -301,7 +301,7 @@ def thiefpathtoescapepolice(positionpolishx,positionpolishy,positionthiefx,posit
         path.append(choosePath(possible_path([tfx,tfy],[i[0],i[1]],wall),thiefyaw))
     answer = path[rank.index(min(rank))]
     return answer
-print(thiefpathtoescapepolice(0,0,2,3,wall(0,0),'+x'))
+# print(thiefpathtoescapepolice(0,0,2,3,wall(0,0),'+x'))
 
 def thiefpathtoexit(positionpolishx,positionpolishy,positionthiefx,positionthiefy,wall,thiefyaw,escapedoor):
     pox=positionpolishx
@@ -335,7 +335,7 @@ def thiefpathtoexit(positionpolishx,positionpolishy,positionthiefx,positionthief
             costmaprank.append(10000000)
         else:
             costmaprank.append(combinecostmap[escapedoorindex[i][0]][escapedoorindex[i][1]])
-    print(costmaprank)
+    # print(costmaprank)
     chosendoor = costmaprank.index(min(costmaprank))
     path = choosePath(possible_path([tfx,tfy],escapedoorindex[chosendoor],wall),thiefyaw)
     return path

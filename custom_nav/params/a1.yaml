@@ -136,12 +136,12 @@ tb3_1/controller_server:
       min_speed_theta: -2.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
-      acc_lim_x: 0.4
-      acc_lim_y: 0.4
-      acc_lim_theta: 0.9
-      decel_lim_x: -0.2
-      decel_lim_y: -0.2
-      decel_lim_theta: -0.9
+      acc_lim_x: 0.1
+      acc_lim_y: 0.1
+      acc_lim_theta: 1.4
+      decel_lim_x: -0.1
+      decel_lim_y: -0.1
+      decel_lim_theta: -1.4
       vx_samples: 20
       vy_samples: 5
       vtheta_samples: 20

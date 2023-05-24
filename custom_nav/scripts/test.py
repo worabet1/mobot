@@ -205,5 +205,6 @@ from random import sample, randint
 # print(door)
 
 a = [0,0,1,0]
-
+import math
 print('ASDASD'+str(a))
+print(int(0.3))

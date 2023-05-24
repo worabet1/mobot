@@ -62,9 +62,9 @@ class MinimalSubscriber(Node):
         # self.path=choosePath(possible_path([self.policeposex,self.policeposey],[self.thiefposex,self.thiefposey],wall(self.doorstate1,self.doorstate2)),degreetoface(self.yaw))
     def timer_callback(self):
         if self.gamestate >= 1 and self.gamestate !=5:
-            if self.path != choosePath(possible_path([self.policeposex,self.policeposey],[self.thiefposex,self.thiefposey],wall(self.doorstate1,self.doorstate2)),degreetoface(self.yaw)):
+            if self.path != choosePath(possible_path([self.pointx ,self.pointy],[self.thiefposex,self.thiefposey],wall(self.doorstate1,self.doorstate2)),degreetoface(self.yaw)):
                 self.num = 0
-            self.path=choosePath(possible_path([self.policeposex,self.policeposey],[self.thiefposex,self.thiefposey],wall(self.doorstate1,self.doorstate2)),degreetoface(self.yaw))
+            self.path=choosePath(possible_path([self.pointx ,self.pointy],[self.thiefposex,self.thiefposey],wall(self.doorstate1,self.doorstate2)),degreetoface(self.yaw))
             prerotation=[self.path[self.num][0]-self.path[self.num+1][0],self.path[self.num][1]-self.path[self.num+1][1]]
             if(prerotation==[-1,0]):
                 rotation=0
@@ -74,25 +74,26 @@ class MinimalSubscriber(Node):
                 rotation=90
             elif(prerotation==[0,1]):
                 rotation=270
+            if ([self.pointx,self.pointy]==self.path[self.num]):
+                if self.num < len(self.path) - 1:
+                    self.nuang += 1
+                    if self.nuang >= 1:
+                        self.nuang = 0
+                        self.num+=1
             pose_msg = PoseStamped()
             pose_msg.header.stamp = self.get_clock().now().to_msg()
             pose_msg.header.frame_id = 'map'
-            pose_msg.pose.position.x = ((self.path[self.num][0]+self.path[self.num+1][0])/2+0.5)*1/3+(1.62-2/12)
-            pose_msg.pose.position.y = ((self.path[self.num][1]+self.path[self.num+1][1])/2+0.5)*1/3+ (3.395 - (2/12))
+            pose_msg.pose.position.x = ((self.path[self.num][0]+self.path[self.num+1][0])/2+0.5)*1/3+(1.62)
+            pose_msg.pose.position.y = ((self.path[self.num][1]+self.path[self.num+1][1])/2+0.5)*1/3+ (3.395)
             pose_msg.pose.position.z = 0.0
             pose_msg.pose.orientation.x = 0.0
             pose_msg.pose.orientation.y = 0.0
             pose_msg.pose.orientation.z = math.sin(rotation*math.pi/180/2)
             pose_msg.pose.orientation.w = math.cos(rotation*math.pi/180/2)
-            if ([self.pointx,self.pointy]==self.path[self.num]):
-                if self.num < len(self.path) - 2:
-                    self.nuang = 1
-                    if self.nuang >= 3:
-                        self.nuang = 0
-                        self.num+=1
             self.pub_goal_1.publish(pose_msg)
             print('Calculate current Pose robot 1')
             print('Current police path = ',self.path)
+            print('Going to ',pose_msg.pose.position.x,' ',pose_msg.pose.position.y)
 
     def subscription_callback(self, msg):
         for transform in msg.transforms:
@@ -115,8 +116,10 @@ class MinimalSubscriber(Node):
         if ((self.odomtobase) and (self.maptoodom)):
             position, orientation = calculate_pose(self.maptoodom,self.odomtobase)
             rotation = rot2eul(orientation)
-            self.pointx = int(math.floor((position[0] - 1.62+(2/12)) / (1/3)))
-            self.pointy = int(math.floor((position[1] - 3.395 + (2/12)) / (1/3)))
+            # self.pointx = int(math.floor((position[0] - 1.62+(2/12)) / (1/3)))
+            # self.pointy = int(math.floor((position[1] - 3.395 + (2/12)) / (1/3)))
+            self.pointx = int((position[0] - 1.62 - 2/12) / (1/3))
+            self.pointy = int((position[1] - 3.395 - 2/12) / (1/3))
             self.yaw = int((int(((rotation[0] *180/math.pi) +360)*10) % 3600)/10.0)
         else:
             pass
