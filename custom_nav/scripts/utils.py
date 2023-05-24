@@ -363,19 +363,20 @@ def euler_to_quaternion(roll, pitch, yaw):
     z = cos_roll_half * cos_pitch_half * sin_yaw_half - sin_roll_half * sin_pitch_half * cos_yaw_half
     w = cos_roll_half * cos_pitch_half * cos_yaw_half + sin_roll_half * sin_pitch_half * sin_yaw_half
     
-    return w
+    return x,y,z,w
 # print(euler_to_quaternion(0,0,0))
-
+import math
 def init_pose(init):
     x = init[0]
     y= init[1]
     yaw = init[2]
     posible_yaw = {'+x':0,"+y":90,"-x":180,"-y":270}
     w = posible_yaw[yaw]
-    w = euler_to_quaternion(0,0,w)
-    xx = ((x-1)*2/6) + 1.62
-    yy = ((y-1)*2/6) + 3.395
-    return xx,yy,float(w)
+    a,b,c,d = euler_to_quaternion(0,0,w)
+    xx = ((x)*2/6) + 1.62
+    yy = ((y)*2/6) + 3.395
+    return xx,yy,a,b,c,d
+# print(init_pose([0,0,'+y']))
 import math
 def rot2eul(R):
     sy = np.sqrt(R[0, 0]**2 + R[1, 0]**2)

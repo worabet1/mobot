@@ -16,7 +16,8 @@ class GameController(Node):
         self.starttime = 0
         self.robot0pose = [0,0,0]
         self.robot1pose = [0,0,0]
-
+        self.robot0grid = [0,0]
+        self.robot1grid = [0,0]
         self.srv = self.create_service(Monitorcontinuous, 'Monitorstart_service', self.monitor)
         self.publisher_ = self.create_publisher(Gamecontroller, '/gamecontroller', 10)
         self.timer = self.create_timer(1.0, self.timer_callback)
@@ -37,14 +38,18 @@ class GameController(Node):
         )
     def subrobotpose0(self, msg):
         # self.get_logger().info('Received: %d' % msg.data)
-        self.robot0pose[0]=msg.robotx
-        self.robot0pose[1]=msg.roboty
+        self.robot0pose[0]=msg.posex
+        self.robot0pose[1]=msg.posey
+        self.robot0grid[0]=msg.robotx
+        self.robot0grid[1]=msg.roboty
         self.robot0pose[2]=msg.robotyaw
 
     def subrobotpose1(self, msg):
         # self.get_logger().info('Received: %d' % msg.data)
-        self.robot1pose[0]=msg.robotx
-        self.robot1pose[1]=msg.roboty
+        self.robot1pose[0]=msg.posex
+        self.robot1pose[1]=msg.posey
+        self.robot1grid[0]=msg.robotx
+        self.robot1grid[1]=msg.roboty
         self.robot1pose[2]=msg.robotyaw
 
     def timer_callback(self):
@@ -52,19 +57,22 @@ class GameController(Node):
         msg.doorstate1 = self.d1
         msg.doorstate2 = self.d2
         msg.timeremaining = self.gametime - (int(time.time()) - self.starttime)
-        msg.thiefposex = self.robot0pose[0]
-        msg.thiefposey = self.robot0pose[1]
-        msg.policeposex = self.robot1pose[0]
-        msg.policeposey = self.robot1pose[1]
-        if self.robot0pose[0] == self.robot1pose[0] and self.robot0pose[1] == self.robot1pose[1]:
+        msg.thiefposex = self.robot0grid[0]
+        msg.thiefposey = self.robot0grid[1]
+        msg.policeposex = self.robot1grid[0]
+        msg.policeposey = self.robot1grid[1]
+        if abs(self.robot0pose[0] - self.robot1pose[0]) < 0.15 and (self.robot0pose[1] - self.robot1pose[1]) < 0.15:
             if self.gamestate == 1 or self.gamestate == 2:
                 if self.gametime > 0:
                     self.gamestate = 4
         if msg.timeremaining <= 0 and self.gamestate != 0:
             self.gamestate = 4
-        if self.robot0pose[0] < 0 or self.robot0pose[1] > 6 or self.robot0pose[0] > 6 or self.robot0pose[1] < 0 :
-            self.gamestate = 3
-        if self.robot0pose[0] < -100 or self.robot0pose[1] > 100 or self.robot0pose[0] > 100 or self.robot0pose[1] < -100 or self.robot1pose[0] < -100 or self.robot1pose[1] > 100 or self.robot1pose[0] > 100 or self.robot1pose[1] < -100:
+        if self.robot0pose[0] < 1.62-1/6 or self.robot0pose[1] > 5.395-1/6 or self.robot0pose[0] > 3.62-1/6 or self.robot0pose[1] < 3.395-1/6 :
+            log_message = 'Float values: ' + str(self.robot0pose[0]) + ', ' + str(self.robot0pose[1])
+            self.get_logger().info(log_message)
+            if self.gamestate == 2:
+                self.gamestate = 3
+        if self.robot0grid[0] < -50 or self.robot0grid[1] > 50 or self.robot0grid[0] > 50 or self.robot0grid[1] < -50 or self.robot0grid[0] < -50 or self.robot0grid[1] > 50 or self.robot0grid[0] > 50 or self.robot0grid[1] < -50:
             self.gamestate = 5
         if msg.timeremaining <= 60 and self.gamestate != 0:
             if not self.check:
@@ -100,7 +108,8 @@ class GameController(Node):
             self.starttime = int(time.time())
             self.escapedoor = [0,0,0,0]
             self.gamestate = 1
-        self.gametime = request.gametime
+        if request.gametime != 0:
+            self.gametime = request.gametime
         return response
 
 def main(args=None):

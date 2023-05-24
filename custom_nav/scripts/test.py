@@ -203,8 +203,26 @@ from random import sample, randint
 #                 break
 
 # print(door)
+escapedoorindex = [[0,0],[3,0],[5,3],[2,5]]
+# a = [0,0,1,0]
+# import math
+# print('ASDASD'+str(a))
+# print(int(0.3))
+# try:
+#     asdfasdf
+# except:
+#     print('error')
+# ed = [0,0,1,1]
+# indices = [i for i, x in enumerate(ed) if x == 1]
+# print(indices)
+# for item in indices:
+#     if item in escapedoorindex:
+#         print (item)
 
-a = [0,0,1,0]
-import math
-print('ASDASD'+str(a))
-print(int(0.3))
+escapedoorindex = [[0,0],[3,0],[5,3],[2,5]]
+indices = [i for i, x in enumerate([0,1,0,1]) if x == 1]
+ed = []
+for i in indices:
+    ed.append(escapedoorindex[i])
+print(ed)
+# print(enumerate([0,1,0,1]))

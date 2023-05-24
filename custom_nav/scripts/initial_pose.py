@@ -5,8 +5,8 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from utils import  mapoffset,init_pose
-init0 = [3,1,'+x']
-init1 = [1,1,'+x']
+init0 = [1,4,'+y']
+init1 = [4,4,'-x']
 class Initial(Node):
     def __init__(self):
         super().__init__('game_controller_initial')
@@ -27,30 +27,30 @@ class Initial(Node):
         time_stamp = Clock().now()
         initial_pose = PoseWithCovarianceStamped()
         # Set the initial pose values
-        x,y,w = init_pose(init0)
+        x,y,a,b,c,d = init_pose(init0)
         initial_pose.header.stamp = time_stamp.to_msg()
         initial_pose.header.frame_id = "map"
         initial_pose.pose.pose.position.x = x
         initial_pose.pose.pose.position.y = y
         initial_pose.pose.pose.position.z = 0.0
-        initial_pose.pose.pose.orientation.x = 0.0
-        initial_pose.pose.pose.orientation.y = 0.0
-        initial_pose.pose.pose.orientation.z = 0.0
-        initial_pose.pose.pose.orientation.w = w
+        initial_pose.pose.pose.orientation.x = a
+        initial_pose.pose.pose.orientation.y = b
+        initial_pose.pose.pose.orientation.z = c
+        initial_pose.pose.pose.orientation.w = d
         self.publisher_0.publish(initial_pose)
     def publish_initial_pose_1(self):
         time_stamp = Clock().now()
         initial_pose = PoseWithCovarianceStamped()
-        x,y,w = init_pose(init1)
+        x,y,a,b,c,d = init_pose(init1)
         initial_pose.header.stamp = time_stamp.to_msg()
         initial_pose.header.frame_id = "map"
         initial_pose.pose.pose.position.x = x
         initial_pose.pose.pose.position.y = y
         initial_pose.pose.pose.position.z = 0.0
-        initial_pose.pose.pose.orientation.x = 0.0
-        initial_pose.pose.pose.orientation.y = 0.0
-        initial_pose.pose.pose.orientation.z = 0.0
-        initial_pose.pose.pose.orientation.w = w
+        initial_pose.pose.pose.orientation.x = a
+        initial_pose.pose.pose.orientation.y = b
+        initial_pose.pose.pose.orientation.z = c
+        initial_pose.pose.pose.orientation.w = d
         self.publisher_1.publish(initial_pose)
 def main(args=None):
     rclpy.init(args=args)
