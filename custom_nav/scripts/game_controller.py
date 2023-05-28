@@ -37,7 +37,6 @@ class GameController(Node):
             10
         )
     def subrobotpose0(self, msg):
-        # self.get_logger().info('Received: %d' % msg.data)
         self.robot0pose[0]=msg.posex
         self.robot0pose[1]=msg.posey
         self.robot0grid[0]=msg.robotx
@@ -45,7 +44,6 @@ class GameController(Node):
         self.robot0pose[2]=msg.robotyaw
 
     def subrobotpose1(self, msg):
-        # self.get_logger().info('Received: %d' % msg.data)
         self.robot1pose[0]=msg.posex
         self.robot1pose[1]=msg.posey
         self.robot1grid[0]=msg.robotx
@@ -63,9 +61,11 @@ class GameController(Node):
         msg.policeposey = self.robot1grid[1]
         if abs(self.robot0pose[0] - self.robot1pose[0]) < 0.15 and (self.robot0pose[1] - self.robot1pose[1]) < 0.15:
             if self.gamestate == 1 or self.gamestate == 2:
-                if self.gametime > 0:
-                    self.gamestate = 4
-        if msg.timeremaining <= 0 and self.gamestate != 0:
+                if int(time.time()) - self.starttime >= 10:
+                    if self.gametime > 0:
+                        # self.get_logger().info("fuck")
+                        self.gamestate = 4
+        if (msg.timeremaining >= -100 and msg.timeremaining <= 0) and self.gamestate != 0:
             self.gamestate = 4
         if self.robot0pose[0] < 1.62-1/6 or self.robot0pose[1] > 5.395-1/6 or self.robot0pose[0] > 3.62-1/6 or self.robot0pose[1] < 3.395-1/6 :
             log_message = 'Float values: ' + str(self.robot0pose[0]) + ', ' + str(self.robot0pose[1])

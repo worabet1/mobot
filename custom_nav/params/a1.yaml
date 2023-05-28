@@ -179,8 +179,8 @@ tb3_1/local_costmap:
       robot_base_frame: tb3_1/base_link
       use_sim_time: False
       rolling_window: true
-      width: 3
-      height: 3
+      width: 6
+      height: 6
       resolution: 0.01
       robot_radius: 0.05
       plugins: ["voxel_layer", "inflation_layer"]
@@ -224,6 +224,9 @@ tb3_1/global_costmap:
       use_sim_time: False
       robot_radius: 0.03
       resolution: 0.03
+      rolling_window: true
+      width: 6
+      height: 6
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:

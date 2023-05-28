@@ -17,8 +17,6 @@ def mapoffset(x,y):
         for j in range(6):
             temp.append([start+tilerange*i,start+tilerange*j])
         map.append(temp)
-    # print(map)
-    # print("______________")
     for i in range(6):
         for j in range(6):
             map[i][j][0] = map[i][j][0] + x
@@ -177,7 +175,6 @@ def costmappolish(positionpolishx,positionpolishy,wall):
         if i[1] <=4:
             availablepath.append([i[0],i[1]+1])
         for y in availablepath:
-            # print(i[0],i[1],y[0],y[1])
             if wall[(i[0],i[1])][(y[0],y[1])]:
                 if(grid[y[0]][y[1]]<lap):
                     grid[y[0]][y[1]]=lap
@@ -325,9 +322,6 @@ def thiefpathtoexit(positionpolishx,positionpolishy,positionthiefx,positionthief
         for j in range(6) :
             cost_blank.append((gainpolish*costmap_inuse[i][j])+(gaindistant*(costmap_distant[i][j]-36)))
         combinecostmap.append(cost_blank)
-    # print(costmap_inuse)
-    # print(costmap_distant)
-    # print(combinecostmap)
     costmaprank = []
     escapedoorindex = [[0,0],[3,0],[5,3],[2,5]]
     for i in range(len(escapedoor)):
@@ -381,9 +375,6 @@ import math
 def rot2eul(R):
     sy = np.sqrt(R[0, 0]**2 + R[1, 0]**2)
     singular = sy < 1e-6
-    # beta = -np.arcsin(R[2,0])
-    # alpha = np.arctan2(R[2,1]/np.cos(beta),R[2,2]/np.cos(beta))
-    # gamma = np.arctan2(R[1,0]/np.cos(beta),R[0,0]/np.cos(beta))
     x = np.arctan2(R[2, 1], R[2, 2])
     y = np.arctan2(-R[2, 0], sy)
     z = np.arctan2(R[1, 0], R[0, 0])
@@ -412,9 +403,6 @@ def calculate_pose(h1,h2):
     transform2_to_3 = np.eye(4)
     transform2_to_3[:3, :3] = rotation_matrix1
     transform2_to_3[:3, 3] = translation1
-
-    # transform1_to_2 = compose(translation2, rotation_matrix2)
-    # transform2_to_3 = compose(translation1, rotation_matrix1)
 
     # Calculate the transformation from frame 1 to frame 3
     transform1_to_3 = np.dot(transform2_to_3, transform1_to_2)

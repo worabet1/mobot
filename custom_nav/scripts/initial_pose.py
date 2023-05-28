@@ -5,8 +5,8 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from utils import  mapoffset,init_pose
-init0 = [1,4,'+y']
-init1 = [4,4,'-x']
+init0 = [2,0,'+x']
+init1 = [0,0,'+x']
 class Initial(Node):
     def __init__(self):
         super().__init__('game_controller_initial')

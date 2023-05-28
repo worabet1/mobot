@@ -57,11 +57,11 @@ class MinimalSubscriber(Node):
     def goouttt(self):
         twist = Twist()
         escapedoorindex = [[0,0],[3,0],[5,3],[2,5]]
-        indices = [i for i, x in enumerate(self.escapedoor) if x == 1]
-        ed = []
-        for i in indices:
-            ed.append(escapedoorindex[i])
         try:
+            indices = [i for i, x in enumerate(self.escapedoor) if x == 1]
+            ed = []
+            for i in indices:
+                ed.append(escapedoorindex[i])
             if self.gamestate == 2 and [self.thiefposex,self.thiefposey] in ed:
                 print("goout by cmd vel")
                 twist.linear.x = 0.0
@@ -110,12 +110,6 @@ class MinimalSubscriber(Node):
         pose_msg.posex = float(self.position[0])
         pose_msg.posey = float(self.position[1])
         self.pub_robot_pose.publish(pose_msg)
-        # if(self.gamestate == 1):
-        #     self.path=thiefpathtoescapepolice(self.policeposex,self.policeposey,self.thiefposex,self.thiefposey,
-        #                                       wall(self.doorstate1,self.doorstate2),degreetoface(self.yaw))
-        # if(self.gamestate == 2):
-        #     self.path=thiefpathtoexit(self.policeposex,self.policeposey,self.thiefposex,self.thiefposey,
-        #                               wall(self.doorstate1,self.doorstate2),degreetoface(self.yaw),self.escapedoor)
     def timer_callback(self):
         pose_msg = PoseStamped()
         pose_msg.header.stamp = self.get_clock().now().to_msg()
@@ -126,7 +120,6 @@ class MinimalSubscriber(Node):
         if(self.gamestate == 2):
             self.path=thiefpathtoexit(self.policeposex,self.policeposey,self.thiefposex,self.thiefposey,
                                       wall(self.doorstate1,self.doorstate2),degreetoface(self.yaw),self.escapedoor)
-        # print('Current thief path = ',self.path)
         if(self.gamestate >= 1 and self.gamestate != 5):
             try:
                 self.num = self.path.index([self.pointx,self.pointy])+1
@@ -141,14 +134,6 @@ class MinimalSubscriber(Node):
                     rotation=270
                 pose_msg.pose.orientation.z = math.sin(rotation*math.pi/180/2)
                 pose_msg.pose.orientation.w = math.cos(rotation*math.pi/180/2)
-                # if ([self.pointx,self.pointy]==self.path[self.num]):
-                #     if self.num < len(self.path) - 1:
-                #         self.nuang += 1
-                #         if self.nuang >= 1:
-                #             self.nuang = 0
-                #             self.num+=1
-                # pose_msg.pose.position.x = self.path[self.num+1][0]/3.0+(1.62)
-                # pose_msg.pose.position.y = self.path[self.num+1][1]/3.0+ (3.395)
                 pose_msg.pose.position.x = ((self.path[self.num][0]+self.path[self.num+1][0])/2)/3.0+(1.62)
                 pose_msg.pose.position.y = ((self.path[self.num][1]+self.path[self.num+1][1])/2)/3.0+ (3.395)
             except:
@@ -185,7 +170,6 @@ class MinimalSubscriber(Node):
                     self.pub_goal_1.publish(pose_msg)
                 self.finishall += 1
             else:
-                print("Go to goal")
                 self.pub_goal_1.publish(pose_msg)
             print('Calculate current Pose robot 0')
             print('Current thief path = ',self.path)

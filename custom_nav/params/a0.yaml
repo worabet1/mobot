@@ -179,8 +179,8 @@ tb3_0/local_costmap:
       robot_base_frame: tb3_0/base_link
       use_sim_time: False
       rolling_window: true
-      width: 3
-      height: 3
+      width: 5
+      height: 5
       resolution: 0.01
       robot_radius: 0.05
       plugins: ["voxel_layer", "inflation_layer"]
@@ -221,6 +221,9 @@ tb3_0/global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: tb3_0/base_link
+      rolling_window: true
+      width: 6
+      height: 6
       use_sim_time: False
       robot_radius: 0.03
       resolution: 0.03

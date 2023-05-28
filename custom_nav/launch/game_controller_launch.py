@@ -40,7 +40,7 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(initial_node)
     ld.add_action(gamecontroller_node)
-    # ld.add_action(robot0_node)
-    # ld.add_action(robot1_node)
+    ld.add_action(robot0_node)
+    ld.add_action(robot1_node)
 
     return ld
