@@ -20,7 +20,8 @@ This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. 
 - The thief must be able to run to the escape door.
 
 ## Create map
-
+Map sixe 2*2 m. divided by 6 in each column
+![mobot](images/map1.jpg)
 
 ## Implementing
 Assume that you already have map or using in gazebo.
