@@ -37,10 +37,15 @@ Paste your map files in map directory
 ### Launch and run all necessaries node
 ```
 ros2 launch custom_nav bringup_launch.py
+ros2 launch custom_nav game_controller_launch.py
 ```
 At this step, rviz could shows the map that you have. Then, your /tf topic could show like this
 ![mobot](images/S__41312259.jpg)
-It's mean amcl already know the robot pose in map, so you can do the next step.
+It's mean amcl already know the robot pose in map, so you can do the next step. Calling game controller service by call 'gamestate.sh'
 ```
-ros2 launch custom_nav game_controller_launch.py
+./gamestate.sh
+```
+The game will start automatically. You can also interrupted to open the door by calling service in 'door.sh'
+```
+./door.sh
 ```
