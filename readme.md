@@ -12,3 +12,9 @@ This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. 
 2. Nachata Vongweeratorn 62340500030
 3. Patcharapol Saechan 62340500036
 4. Worameth Witanakorn 62340500045
+
+## Functional requirements
+- The thief must be able to run away from the police.
+- The police must be able to chase the thief.
+- The game controller must be able to open-close the door.
+- The thief must be able to run to the escape door.
