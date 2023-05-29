@@ -18,9 +18,9 @@ This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. 
 - The police must be able to chase the thief.
 - The game controller must be able to open-close the door.
 - The thief must be able to run to the escape door.
-
-## Clone & Build the package
-
+- 
+## Implementing
+### Clone & Build the package
 ```
 cd ~/turtlebot3_ws/src
 git clone https://github.com/aumchayanut/mobot.git
@@ -29,7 +29,7 @@ colcon build
 source install/setup.bash
 ```
 
-## Launch and run all necessary node
+### Launch and run all necessaries node
 ```
 ros2 launch custom_nav bringup_launch.py
 ros2 launch custom_nav game_controller_launch.py
