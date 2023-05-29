@@ -1,5 +1,5 @@
 # Catch me if you can
-This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. In the Play Tag game, the TurtleBot3 acts as a "Police" robot that tries to catch other "Thief" robots by moving and navigating in the environment. In this project we design the map to 6'×'6 grid with 2'×'2 meters 2 inside doors and 4 escape doors.
+This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. In the Play Tag game, the TurtleBot3 acts as a "Police" robot that tries to catch other "Thief" robots by moving and navigating in the environment. In this project we design the map to 6 × 6 grid with 2 × 2 meters 2 inside doors and 4 escape doors.
 
 ## Purposed application
 - Thief must try to avoid from police for a period of time until the escape door is unlocked
