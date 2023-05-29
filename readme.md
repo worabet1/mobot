@@ -20,6 +20,7 @@ This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. 
 - The thief must be able to run to the escape door.
 
 ## Implementing
+Assume that you already have map or using in gazebo.
 ### Bringup both turtlebot3 with different namespace
 ```
 ros2 launch turtlebot3 bringup_w_ns_launch.py
@@ -32,9 +33,13 @@ cd ~/turtlebot3_ws/
 colcon build
 source install/setup.bash
 ```
-
+Paste your map files in map directory
 ### Launch and run all necessaries node
 ```
 ros2 launch custom_nav bringup_launch.py
+```
+At this step, rviz could shows the map that you have. THen, your /tf topic could show like this
+!(images/S__41312259.jpg)
+```
 ros2 launch custom_nav game_controller_launch.py
 ```
