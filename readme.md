@@ -40,6 +40,7 @@ ros2 launch custom_nav bringup_launch.py
 ```
 At this step, rviz could shows the map that you have. Then, your /tf topic could show like this
 ![mobot](images/S__41312259.jpg)
+It's mean amcl already know the robot pose in map, so you can do the next step.
 ```
 ros2 launch custom_nav game_controller_launch.py
 ```
