@@ -1,5 +1,5 @@
 # Catch me if you can
-This project is to make navigation on multi-turtlebot3 based on nav2 ROS2 foxy.
+This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. In the Play Tag game, the TurtleBot3 acts as a "tagger" robot that tries to catch other "runner" robots by moving and navigating in the environment.
 # Member
 Chayanut Rassameecharoenchai 62340500012
 Nachata Vongweeratorn 62340500030
