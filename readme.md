@@ -19,5 +19,5 @@ This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. 
 - The game controller must be able to open-close the door.
 - The thief must be able to run to the escape door.
 
-'''cd ~/turtlebot3_ws/src'''
-'''git clone https://github.com/aumchayanut/mobot.git'''
+```cd ~/turtlebot3_ws/src```
+```git clone https://github.com/aumchayanut/mobot.git```
