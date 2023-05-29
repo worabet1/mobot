@@ -19,6 +19,9 @@ This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. 
 - The game controller must be able to open-close the door.
 - The thief must be able to run to the escape door.
 
+## Create map
+
+
 ## Implementing
 Assume that you already have map or using in gazebo.
 ### Bringup both turtlebot3 with different namespace
