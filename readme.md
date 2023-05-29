@@ -1,5 +1,5 @@
 # Catch me if you can
-This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. In the Play Tag game, the TurtleBot3 acts as a "tagger" robot that tries to catch other "runner" robots by moving and navigating in the environment.
+This repository contains a ROS2 package for the multi-TurtleBot3 Play Tag game. In the Play Tag game, the TurtleBot3 acts as a "Police" robot that tries to catch other "Thief" robots by moving and navigating in the environment.
 
 # Purposed application
 ​ Thief must try to avoid from police for a period of time until the escape door is unlocked
