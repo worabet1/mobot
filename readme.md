@@ -39,7 +39,7 @@ Paste your map files in map directory
 ros2 launch custom_nav bringup_launch.py
 ```
 At this step, rviz could shows the map that you have. THen, your /tf topic could show like this
-!(images/S__41312259.jpg)
+!(mobot/images/S__41312259.jpg)
 ```
 ros2 launch custom_nav game_controller_launch.py
 ```
